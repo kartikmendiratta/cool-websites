@@ -1,0 +1,31 @@
+{
+  "name": "coolwebs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.0",
+    "@supabase/supabase-js": "^2.47.0",
+    "lucide-react": "^0.470.0",
+    "next": "^16.1.0",
+    "react": "^19.0.0-rc-66855b96-20250101",
+    "react-dom": "^19.0.0-rc-66855b96-20250101"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0-rc-66855b96-20250101",
+    "@types/react-dom": "^19.0.0-rc-66855b96-20250101",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.16.0",
+    "eslint-config-next": "^16.1.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
+  }
+}
