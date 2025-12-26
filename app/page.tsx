@@ -67,10 +67,7 @@ export default async function Page({
   const params = await searchParams;
   const sortBy = params.sort || "upvotes";
 
-  const [websites, user] = await Promise.all([
-    getWebsites(sortBy),
-    getCurrentUser(),
-  ]);
+  const websites = await getWebsites(sortBy);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">

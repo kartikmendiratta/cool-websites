@@ -1,9 +1,14 @@
-"use client";
-
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import { UserMenu } from "./UserMenu";
+import { createClient } from "@/lib/supabase/server";
 
-export function Navbar() {
+export async function Navbar() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <nav className="border-b border-slate-800 bg-slate-900/50 backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -14,15 +19,26 @@ export function Navbar() {
           </span>
         </Link>
 
-        <button
-          onClick={() => {
-            window.location.href =
-              "mailto:owner@example.com?subject=Submit a Cool Website for CoolWebs";
-          }}
-          className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
-        >
-          Submit a Site
-        </button>
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <Link
+                href="/submit"
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
+              >
+                Submit a Site
+              </Link>
+              <UserMenu user={user} />
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
+            >
+              Sign In
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ThumbsUp, ExternalLink } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -21,6 +21,59 @@ export function WebsiteCard({ website }: { website: Website }) {
   const supabase = createClient();
   const router = useRouter();
 
+  // Update local state when prop changes (after router.refresh())
+  useEffect(() => {
+    setUpvotesCount(website.upvotes_count);
+  }, [website.upvotes_count]);
+
+  // Check if user has already upvoted on mount
+  useEffect(() => {
+    async function checkUpvoteStatus() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data: existingVote } = await supabase
+          .from("votes")
+          .select("id")
+          .eq("user_id", user.id)
+          .eq("website_id", website.id)
+          .maybeSingle();
+
+        setIsUpvoted(!!existingVote);
+      }
+    }
+
+    checkUpvoteStatus();
+  }, [website.id, supabase]);
+
+  // Realtime: update upvote count when the website row changes
+  useEffect(() => {
+    const channel = supabase
+      .channel(`websites-updates-${website.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'websites',
+          filter: `id=eq.${website.id}`,
+        },
+        (payload) => {
+          const nextCount = (payload.new as any)?.upvotes_count;
+          if (typeof nextCount === 'number') {
+            setUpvotesCount(nextCount);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase, website.id]);
+
   const handleUpvote = useCallback(async () => {
     setIsLoading(true);
 
@@ -32,18 +85,18 @@ export function WebsiteCard({ website }: { website: Website }) {
       } = await supabase.auth.getUser();
 
       if (authError || !user) {
-        // Redirect to sign in (you'll need to implement auth pages)
-        router.push("/auth/login");
+        // Redirect to login page
+        router.push("/login");
         return;
       }
 
       // Check if user has already upvoted
-      const { data: existingVote, error: voteCheckError } = await supabase
+      const { data: existingVote } = await supabase
         .from("votes")
         .select("id")
         .eq("user_id", user.id)
         .eq("website_id", website.id)
-        .single();
+        .maybeSingle();
 
       if (existingVote) {
         // User already upvoted, remove the upvote
@@ -53,8 +106,11 @@ export function WebsiteCard({ website }: { website: Website }) {
           .eq("user_id", user.id)
           .eq("website_id", website.id);
 
-        if (!deleteError) {
+        if (deleteError) {
+          console.error("Error deleting vote:", deleteError);
+        } else {
           setIsUpvoted(false);
+          // Optimistically update the UI
           setUpvotesCount((prev) => Math.max(0, prev - 1));
         }
       } else {
@@ -64,12 +120,16 @@ export function WebsiteCard({ website }: { website: Website }) {
           website_id: website.id,
         });
 
-        if (!insertError) {
+        if (insertError) {
+          console.error("Error inserting vote:", insertError);
+        } else {
           setIsUpvoted(true);
+          // Optimistically update the UI
           setUpvotesCount((prev) => prev + 1);
         }
       }
 
+      // Refresh to get the accurate count from database
       router.refresh();
     } catch (error) {
       console.error("Error updating upvote:", error);
