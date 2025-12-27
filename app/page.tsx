@@ -7,6 +7,7 @@ interface Website {
   title: string;
   url: string;
   description: string;
+  category?: string;
   upvotes_count: number;
   created_at: string;
 }

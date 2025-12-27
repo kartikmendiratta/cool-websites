@@ -9,6 +9,7 @@ export function SubmitForm() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("tools");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -32,6 +33,7 @@ export function SubmitForm() {
         title,
         url,
         description,
+        category,
       });
 
       if (insertError) throw insertError;
@@ -40,6 +42,7 @@ export function SubmitForm() {
       setTitle("");
       setUrl("");
       setDescription("");
+      setCategory("tools");
 
       // Redirect after 2 seconds
       setTimeout(() => {
@@ -125,6 +128,25 @@ export function SubmitForm() {
         <p className="mt-1 text-xs text-slate-500">
           {description.length}/500 characters
         </p>
+      </div>
+
+      <div>
+        <label htmlFor="category" className="block text-sm font-medium text-slate-300 mb-2"
+         >
+          Category
+        </label>
+        <select
+          id ="category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-100"
+        >
+          <option value="tools">Tools</option>
+          <option value="education">Education</option>
+          <option value="fun">Fun</option>
+          <option value="design">Design</option>
+          <option value="productivity">Productivity</option>
+        </select>
       </div>
 
       <button

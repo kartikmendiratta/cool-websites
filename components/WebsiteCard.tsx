@@ -10,6 +10,7 @@ interface Website {
   title: string;
   url: string;
   description: string;
+  category?: string;
   upvotes_count: number;
   created_at: string;
 }
@@ -140,8 +141,13 @@ export function WebsiteCard({ website }: { website: Website }) {
 
   return (
     <div className="card hover:shadow-lg hover:shadow-blue-500/10">
-      <div className="mb-4">
-        <h3 className="text-xl font-bold mb-2 text-white">{website.title}</h3>
+      <div className="mb-4 space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-200 capitalize border border-slate-700">
+            {website.category || "uncategorized"}
+          </span>
+        </div>
+        <h3 className="text-xl font-bold text-white">{website.title}</h3>
         <p className="text-slate-400 text-sm line-clamp-2">
           {website.description}
         </p>

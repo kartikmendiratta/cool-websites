@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS websites (
   title TEXT NOT NULL,
   url TEXT NOT NULL,
   description TEXT NOT NULL,
+  category TEXT NOT NULL DEFAULT 'uncategorized',
   upvotes_count INTEGER DEFAULT 0,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
