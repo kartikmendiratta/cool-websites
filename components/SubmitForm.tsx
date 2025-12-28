@@ -59,9 +59,9 @@ export function SubmitForm() {
   if (success) {
     return (
       <div className="text-center py-8">
-        <CheckCircle2 className="w-16 h-16 text-green-400 mx-auto mb-4" />
-        <h3 className="text-2xl font-bold text-white mb-2">Submitted for review</h3>
-        <p className="text-slate-400">We'll publish it after approval.</p>
+        <CheckCircle2 className="w-16 h-16 text-retro-mint mx-auto mb-4" />
+        <h3 className="text-2xl font-black text-retro-dark mb-2">Submitted for review! 🎉</h3>
+        <p className="text-gray-600 font-mono">We'll publish it after approval.</p>
       </div>
     );
   }
@@ -69,17 +69,17 @@ export function SubmitForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+        <div className="p-4 bg-retro-accent/10 border-2 border-retro-accent rounded-md text-retro-accent text-sm font-medium">
           {error}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
+        <label className="block text-sm font-bold text-retro-dark mb-2">
           Website Title
         </label>
         <div className="relative">
-          <Type className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+          <Type className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
             required
@@ -87,34 +87,34 @@ export function SubmitForm() {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., GitHub"
             maxLength={100}
-            className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-100 placeholder-slate-500"
+            className="input-retro pl-10"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
+        <label className="block text-sm font-bold text-retro-dark mb-2">
           Website URL
         </label>
         <div className="relative">
-          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="url"
             required
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="https://example.com"
-            className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-100 placeholder-slate-500"
+            className="input-retro pl-10"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-slate-300 mb-2">
+        <label className="block text-sm font-bold text-retro-dark mb-2">
           Description
         </label>
         <div className="relative">
-          <FileText className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
+          <FileText className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
           <textarea
             required
             value={description}
@@ -122,16 +122,16 @@ export function SubmitForm() {
             placeholder="What makes this website awesome?"
             rows={4}
             maxLength={500}
-            className="w-full pl-10 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-100 placeholder-slate-500 resize-none"
+            className="input-retro pl-10 resize-none"
           />
         </div>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-xs text-gray-500 font-mono">
           {description.length}/500 characters
         </p>
       </div>
 
       <div>
-        <label htmlFor="category" className="block text-sm font-medium text-slate-300 mb-2"
+        <label htmlFor="category" className="block text-sm font-bold text-retro-dark mb-2"
          >
           Category
         </label>
@@ -139,20 +139,20 @@ export function SubmitForm() {
           id ="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-slate-100"
+          className="input-retro cursor-pointer"
         >
-          <option value="tools">Tools</option>
-          <option value="education">Education</option>
-          <option value="fun">Fun</option>
-          <option value="design">Design</option>
-          <option value="productivity">Productivity</option>
+          <option value="tools">🛠️ Tools</option>
+          <option value="education">📚 Education</option>
+          <option value="fun">🎮 Fun</option>
+          <option value="design">🎨 Design</option>
+          <option value="productivity">⚡ Productivity</option>
         </select>
       </div>
 
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+        className="w-full bg-retro-accent text-white font-bold py-3 px-4 rounded-md border-2 border-retro-dark shadow-retro hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all duration-100 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-retro"
       >
         {loading && <Loader2 className="w-5 h-5 animate-spin" />}
         Submit Website

@@ -42,30 +42,30 @@ export function UserMenu({ user }: UserMenuProps) {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700"
+        className="flex items-center gap-2 px-3 py-2 rounded-md bg-white border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
       >
-        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400 flex items-center justify-center text-white font-medium">
+        <div className="w-8 h-8 rounded-md bg-retro-lavender border-2 border-retro-dark flex items-center justify-center text-retro-dark font-bold">
           {displayName[0].toUpperCase()}
         </div>
-        <span className="text-slate-200 hidden sm:block">{displayName}</span>
+        <span className="text-retro-dark font-medium hidden sm:block">{displayName}</span>
         <ChevronDown
-          className={`w-4 h-4 text-slate-400 transition-transform ${
+          className={`w-4 h-4 text-retro-dark transition-transform ${
             isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-slate-800 border border-slate-700 rounded-lg shadow-xl py-2 z-50">
-          <div className="px-4 py-2 border-b border-slate-700">
-            <p className="text-sm font-medium text-slate-200">{displayName}</p>
-            <p className="text-xs text-slate-400 truncate">{user.email}</p>
+        <div className="absolute right-0 mt-2 w-56 bg-white border-2 border-retro-dark rounded-md shadow-retro py-2 z-50">
+          <div className="px-4 py-2 border-b-2 border-retro-dark">
+            <p className="text-sm font-bold text-retro-dark">{displayName}</p>
+            <p className="text-xs text-gray-500 truncate font-mono">{user.email}</p>
           </div>
 
           <button
             onClick={handleSignOut}
             disabled={loading}
-            className="w-full px-4 py-2 text-left text-sm text-slate-300 hover:bg-slate-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 py-2 text-left text-sm text-retro-dark hover:bg-retro-accent hover:text-white transition-colors flex items-center gap-2 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <LogOut className="w-4 h-4" />
             {loading ? "Signing out..." : "Sign Out"}

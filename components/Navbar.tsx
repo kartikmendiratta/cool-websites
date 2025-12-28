@@ -10,13 +10,11 @@ export async function Navbar() {
   } = await supabase.auth.getUser();
 
   return (
-    <nav className="border-b border-slate-800 bg-slate-900/50 backdrop-blur">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-          <Heart className="w-6 h-6 text-red-500" />
-          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            CoolWebs
-          </span>
+    <nav className="border-b-2 border-retro-dark bg-retro-yellow">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 font-black text-2xl text-retro-dark hover:rotate-[-2deg] transition-transform">
+          <Heart className="w-7 h-7 text-retro-accent fill-retro-accent" />
+          <span>CoolWebs</span>
         </Link>
 
         <div className="flex items-center gap-4">
@@ -24,7 +22,7 @@ export async function Navbar() {
             <>
               <Link
                 href="/submit"
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
+                className="px-5 py-2 rounded-md bg-retro-accent text-white font-bold border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
               >
                 Submit a Site
               </Link>
@@ -33,7 +31,7 @@ export async function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors"
+              className="px-5 py-2 rounded-md bg-white text-retro-dark font-bold border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
             >
               Sign In
             </Link>

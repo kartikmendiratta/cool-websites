@@ -139,26 +139,37 @@ export function WebsiteCard({ website }: { website: Website }) {
     }
   }, [website.id, supabase, router]);
 
+  // Category color mapping for visual variety
+  const categoryColors: Record<string, string> = {
+    tools: "bg-retro-mint",
+    education: "bg-retro-main",
+    fun: "bg-retro-yellow",
+    design: "bg-retro-lavender",
+    productivity: "bg-retro-orange",
+  };
+
+  const categoryBg = categoryColors[website.category || ""] || "bg-gray-200";
+
   return (
-    <div className="card hover:shadow-lg hover:shadow-blue-500/10">
-      <div className="mb-4 space-y-2">
+    <div className="card-retro hover:translate-y-[-2px]">
+      <div className="mb-4 space-y-3">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-200 capitalize border border-slate-700">
+          <span className={`tag-retro ${categoryBg} text-retro-dark`}>
             {website.category || "uncategorized"}
           </span>
         </div>
-        <h3 className="text-xl font-bold text-white">{website.title}</h3>
-        <p className="text-slate-400 text-sm line-clamp-2">
+        <h3 className="text-xl font-black text-retro-dark">{website.title}</h3>
+        <p className="text-gray-600 text-sm line-clamp-2 font-mono">
           {website.description}
         </p>
       </div>
 
-      <div className="flex items-center justify-between mt-6">
+      <div className="flex items-center justify-between mt-6 pt-4 border-t-2 border-retro-dark/10">
         <a
           href={website.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-retro-dark text-white text-sm font-bold border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
         >
           Visit
           <ExternalLink className="w-4 h-4" />
@@ -167,13 +178,13 @@ export function WebsiteCard({ website }: { website: Website }) {
         <button
           onClick={handleUpvote}
           disabled={isLoading}
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-md font-bold border-2 border-retro-dark transition-all duration-100 ${
             isUpvoted
-              ? "bg-blue-600/20 text-blue-400 border border-blue-600/30"
-              : "bg-slate-800 text-slate-400 hover:bg-slate-700 border border-slate-700"
+              ? "bg-retro-accent text-white shadow-retro-sm"
+              : "bg-white text-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           } disabled:opacity-50 disabled:cursor-not-allowed`}
         >
-          <ThumbsUp className="w-4 h-4" />
+          <ThumbsUp className={`w-4 h-4 ${isUpvoted ? "fill-white" : ""}`} />
           <span>{upvotesCount}</span>
         </button>
       </div>
