@@ -117,7 +117,7 @@ export default async function Page({
       {/* Header */}
       <div className="mb-8 sm:mb-12">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-3 sm:mb-4 text-retro-dark">
-          Cool<span className="text-retro-accent">Webs</span> ✨
+          Cool<span className="text-retro-accent">Webs</span> 
         </h1>
         <p className="text-gray-600 text-base sm:text-lg max-w-2xl font-mono">
           Discover amazing websites, tools, and resources. Upvote your favorites
@@ -153,7 +153,7 @@ export default async function Page({
               Reach thousands of developers and tech enthusiasts. Sponsor this spot and showcase your product to our community.
             </p>
             <a
-              href="mailto:sponsor@coolwebs.com"
+              href="/sponsor"
               className="inline-block px-4 py-2 bg-retro-dark text-white font-bold text-sm border-2 border-retro-dark rounded-md shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
             >
               Become a Sponsor →
