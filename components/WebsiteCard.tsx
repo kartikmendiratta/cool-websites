@@ -152,39 +152,39 @@ export function WebsiteCard({ website }: { website: Website }) {
 
   return (
     <div className="card-retro hover:translate-y-[-2px]">
-      <div className="mb-4 space-y-3">
+      <div className="mb-3 sm:mb-4 space-y-2 sm:space-y-3">
         <div className="flex items-center gap-2">
-          <span className={`tag-retro ${categoryBg} text-retro-dark`}>
+          <span className={`tag-retro ${categoryBg} text-retro-dark text-[10px] sm:text-xs`}>
             {website.category || "uncategorized"}
           </span>
         </div>
-        <h3 className="text-xl font-black text-retro-dark">{website.title}</h3>
-        <p className="text-gray-600 text-sm line-clamp-2 font-mono">
+        <h3 className="text-lg sm:text-xl font-black text-retro-dark line-clamp-1">{website.title}</h3>
+        <p className="text-gray-600 text-xs sm:text-sm line-clamp-2 font-mono">
           {website.description}
         </p>
       </div>
 
-      <div className="flex items-center justify-between mt-6 pt-4 border-t-2 border-retro-dark/10">
+      <div className="flex items-center justify-between mt-4 sm:mt-6 pt-3 sm:pt-4 border-t-2 border-retro-dark/10">
         <a
           href={website.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-retro-dark text-white text-sm font-bold border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
+          className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md bg-retro-dark text-white text-xs sm:text-sm font-bold border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
         >
           Visit
-          <ExternalLink className="w-4 h-4" />
+          <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </a>
 
         <button
           onClick={handleUpvote}
           disabled={isLoading}
-          className={`inline-flex items-center gap-2 px-4 py-2 rounded-md font-bold border-2 border-retro-dark transition-all duration-100 ${
+          className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-md font-bold text-xs sm:text-sm border-2 border-retro-dark transition-all duration-100 ${
             isUpvoted
               ? "bg-retro-accent text-white shadow-retro-sm"
               : "bg-white text-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           } disabled:opacity-50 disabled:cursor-not-allowed`}
         >
-          <ThumbsUp className={`w-4 h-4 ${isUpvoted ? "fill-white" : ""}`} />
+          <ThumbsUp className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isUpvoted ? "fill-white" : ""}`} />
           <span>{upvotesCount}</span>
         </button>
       </div>
