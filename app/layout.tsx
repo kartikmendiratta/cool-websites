@@ -8,7 +8,21 @@ export const metadata: Metadata = {
   description:
     "A directory of useful and cool websites. Explore, upvote your favorites, and discover new tools.",
   keywords: ["websites", "directory", "tools", "resources"],
-  viewport: "width=device-width, initial-scale=1",
+  openGraph: {
+    title: "CoolWebs - Discover Cool Websites",
+    description: "A directory of useful and cool websites. Explore, upvote your favorites, and discover new tools.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CoolWebs - Discover Cool Websites",
+    description: "A directory of useful and cool websites. Explore, upvote your favorites, and discover new tools.",
+  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

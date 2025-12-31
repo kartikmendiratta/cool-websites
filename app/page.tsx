@@ -44,14 +44,6 @@ async function getWebsites(sortBy: string = "upvotes", category?: string, search
   return data as Website[];
 }
 
-async function getCurrentUser() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
-}
-
 function WebsitesGrid({ websites, searchQuery }: { websites: Website[]; searchQuery?: string }) {
   if (websites.length === 0) {
     return (

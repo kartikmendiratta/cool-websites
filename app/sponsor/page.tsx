@@ -1,4 +1,4 @@
-import { Mail, Twitter, MessageCircle, Zap, Users, TrendingUp } from "lucide-react";
+import { Mail, Twitter, Zap, Users, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
 export default function SponsorPage() {

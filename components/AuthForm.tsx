@@ -149,8 +149,7 @@ export function AuthForm() {
               Display Name (Optional)
             </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
+               <input
                 type="text"
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
@@ -166,8 +165,7 @@ export function AuthForm() {
             Email
           </label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
+         <input
               type="email"
               required
               value={email}
@@ -183,8 +181,7 @@ export function AuthForm() {
             Password
           </label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
+      <input
               type="password"
               required
               value={password}
