@@ -1,24 +1,25 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
 import { LogOut, ChevronDown } from "lucide-react";
-import type { User as SupabaseUser } from "@supabase/supabase-js";
+
+interface Auth0User {
+  sub: string;
+  email?: string;
+  name?: string;
+  picture?: string;
+}
 
 interface UserMenuProps {
-  user: SupabaseUser;
+  user: Auth0User;
 }
 
 export function UserMenu({ user }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-  const supabase = createClient();
 
-  const displayName =
-    user.user_metadata?.display_name || user.email?.split("@")[0] || "User";
+  const displayName = user.name || user.email?.split("@")[0] || "User";
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -31,11 +32,10 @@ export function UserMenu({ user }: UserMenuProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleSignOut = async () => {
+  const handleSignOut = () => {
     setLoading(true);
-    await supabase.auth.signOut();
-    router.push("/");
-    router.refresh();
+    // Redirect to Auth0 logout
+    window.location.href = "/auth/logout";
   };
 
   return (
@@ -44,9 +44,17 @@ export function UserMenu({ user }: UserMenuProps) {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 rounded-md bg-white border-2 border-retro-dark shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
       >
-        <div className="w-8 h-8 rounded-md bg-retro-lavender border-2 border-retro-dark flex items-center justify-center text-retro-dark font-bold">
-          {displayName[0].toUpperCase()}
-        </div>
+        {user.picture ? (
+          <img 
+            src={user.picture} 
+            alt={displayName}
+            className="w-8 h-8 rounded-md border-2 border-retro-dark"
+          />
+        ) : (
+          <div className="w-8 h-8 rounded-md bg-retro-lavender border-2 border-retro-dark flex items-center justify-center text-retro-dark font-bold">
+            {displayName[0].toUpperCase()}
+          </div>
+        )}
         <span className="text-retro-dark font-medium hidden sm:block">{displayName}</span>
         <ChevronDown
           className={`w-4 h-4 text-retro-dark transition-transform ${

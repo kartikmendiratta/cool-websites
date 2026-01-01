@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { Heart, Plus } from "lucide-react";
 import { UserMenu } from "./UserMenu";
-import { createClient } from "@/lib/supabase/server";
+import { auth0 } from "@/lib/auth0";
 
 export async function Navbar() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const session = await auth0.getSession();
+  const user = session?.user;
 
   return (
     <nav className="border-b-2 border-retro-dark bg-retro-yellow">

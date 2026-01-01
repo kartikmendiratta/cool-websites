@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { ThumbsUp, ExternalLink } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { useUser } from "@auth0/nextjs-auth0";
 
 interface Website {
   id: string;
@@ -21,6 +22,7 @@ export function WebsiteCard({ website }: { website: Website }) {
   const [isLoading, setIsLoading] = useState(false);
   const supabase = createClient();
   const router = useRouter();
+  const { user } = useUser();
 
   // Update local state when prop changes (after router.refresh())
   useEffect(() => {
@@ -30,15 +32,11 @@ export function WebsiteCard({ website }: { website: Website }) {
   // Check if user has already upvoted on mount
   useEffect(() => {
     async function checkUpvoteStatus() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
+      if (user?.sub) {
         const { data: existingVote } = await supabase
-          .from("votes")
+          .from("votes_auth0")
           .select("id")
-          .eq("user_id", user.id)
+          .eq("user_id", user.sub)
           .eq("website_id", website.id)
           .maybeSingle();
 
@@ -47,7 +45,7 @@ export function WebsiteCard({ website }: { website: Website }) {
     }
 
     checkUpvoteStatus();
-  }, [website.id, supabase]);
+  }, [website.id, supabase, user]);
 
   // Realtime: update upvote count when the website row changes
   useEffect(() => {
@@ -79,32 +77,29 @@ export function WebsiteCard({ website }: { website: Website }) {
     setIsLoading(true);
 
     try {
-      // Check if user is logged in
-      const {
-        data: { user },
-        error: authError,
-      } = await supabase.auth.getUser();
-
-      if (authError || !user) {
+      // Check if user is logged in via Auth0
+      if (!user?.sub) {
         // Redirect to login page
         router.push("/login");
         return;
       }
 
+      const userId = user.sub;
+
       // Check if user has already upvoted
       const { data: existingVote } = await supabase
-        .from("votes")
+        .from("votes_auth0")
         .select("id")
-        .eq("user_id", user.id)
+        .eq("user_id", userId)
         .eq("website_id", website.id)
         .maybeSingle();
 
       if (existingVote) {
         // User already upvoted, remove the upvote
         const { error: deleteError } = await supabase
-          .from("votes")
+          .from("votes_auth0")
           .delete()
-          .eq("user_id", user.id)
+          .eq("user_id", userId)
           .eq("website_id", website.id);
 
         if (deleteError) {
@@ -115,9 +110,12 @@ export function WebsiteCard({ website }: { website: Website }) {
           setUpvotesCount((prev) => Math.max(0, prev - 1));
         }
       } else {
+        // First sync user to profiles table
+        await fetch("/api/auth/sync");
+        
         // Add new upvote
-        const { error: insertError } = await supabase.from("votes").insert({
-          user_id: user.id,
+        const { error: insertError } = await supabase.from("votes_auth0").insert({
+          user_id: userId,
           website_id: website.id,
         });
 
@@ -137,7 +135,7 @@ export function WebsiteCard({ website }: { website: Website }) {
     } finally {
       setIsLoading(false);
     }
-  }, [website.id, supabase, router]);
+  }, [website.id, supabase, router, user]);
 
   // Category color mapping for visual variety
   const categoryColors: Record<string, string> = {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Auth0Provider } from "@auth0/nextjs-auth0";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
@@ -32,11 +33,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-retro-bg text-retro-dark min-h-screen flex flex-col">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </body>
+      <Auth0Provider>
+        <body className="bg-retro-bg text-retro-dark min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </body>
+      </Auth0Provider>
     </html>
   );
 }

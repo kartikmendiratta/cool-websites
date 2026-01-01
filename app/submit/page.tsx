@@ -1,17 +1,14 @@
 import { SubmitForm } from "@/components/SubmitForm";
-import { createClient } from "@/lib/supabase/server";
+import { auth0 } from "@/lib/auth0";
 import { redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 export default async function SubmitPage() {
-  // Require authentication
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // Require authentication via Auth0
+  const session = await auth0.getSession();
 
-  if (!user) {
+  if (!session?.user) {
     redirect("/login");
   }
 
