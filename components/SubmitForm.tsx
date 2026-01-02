@@ -79,8 +79,7 @@ export function SubmitForm() {
           Website Title
         </label>
         <div className="relative">
-          <Type className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
+<input
             type="text"
             required
             value={title}
@@ -97,8 +96,7 @@ export function SubmitForm() {
           Website URL
         </label>
         <div className="relative">
-          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-          <input
+ <input
             type="url"
             required
             value={url}
@@ -114,8 +112,7 @@ export function SubmitForm() {
           Description
         </label>
         <div className="relative">
-          <FileText className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
-          <textarea
+<textarea
             required
             value={description}
             onChange={(e) => setDescription(e.target.value)}

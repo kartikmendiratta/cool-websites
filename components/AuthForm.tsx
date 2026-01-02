@@ -6,10 +6,16 @@ import { Loader2 } from "lucide-react";
 export function AuthForm() {
   const [loading, setLoading] = useState(false);
 
+  const handleSignIn = () => {
+    setLoading(true);
+    // Redirect to Auth0 Universal Login (supports Google + Email/Password)
+    window.location.href = "/auth/login";
+  };
+
   const handleGoogleSignIn = () => {
     setLoading(true);
-    // Redirect to Auth0 login - forces Google sign-in
-    window.location.href = "/auth/login";
+    // Direct Google OAuth
+    window.location.href = "/auth/login?connection=google-oauth2";
   };
 
   return (
@@ -18,11 +24,34 @@ export function AuthForm() {
       <div className="text-center">
         <h2 className="text-2xl font-bold text-retro-dark mb-2">Welcome!</h2>
         <p className="text-gray-600 text-sm">
-          Sign in with your Google account to upvote and submit websites
+          Sign in to upvote and submit websites
         </p>
       </div>
 
-      {/* Google Sign In via Auth0 */}
+      {/* Universal Login - Shows all auth methods */}
+      <button
+        type="button"
+        onClick={handleSignIn}
+        disabled={loading}
+        className="w-full bg-retro-orange text-white font-bold py-4 px-4 rounded-md border-2 border-retro-dark shadow-retro hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all duration-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-retro"
+      >
+        {loading ? (
+          <Loader2 className="w-5 h-5 animate-spin" />
+        ) : (
+          "Sign In / Sign Up"
+        )}
+      </button>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-300"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-2 bg-white text-gray-500">Or continue with</span>
+        </div>
+      </div>
+
+      {/* Google Sign In Direct */}
       <button
         type="button"
         onClick={handleGoogleSignIn}
