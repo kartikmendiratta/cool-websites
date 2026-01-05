@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
-import { Globe, Type, FileText, Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2, CheckCircle2 } from "lucide-react";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -112,7 +112,7 @@ export function SubmitForm() {
           Description
         </label>
         <div className="relative">
-<textarea
+          <textarea
             required
             value={description}
             onChange={(e) => setDescription(e.target.value)}

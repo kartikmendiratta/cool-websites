@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { WebsiteCard } from "@/components/WebsiteCard";
 import { SearchBar } from "@/components/SearchBar";
+import { InfiniteWebsiteGrid } from "@/components/InfiniteWebsiteGrid";
 import { Suspense } from "react";
 
 interface Website {
@@ -12,6 +12,8 @@ interface Website {
   upvotes_count: number;
   created_at: string;
 }
+
+const ITEMS_PER_PAGE = 12;
 
 async function getWebsites(sortBy: string = "upvotes", category?: string, searchQuery?: string) {
   const supabase = await createClient();
@@ -34,6 +36,9 @@ async function getWebsites(sortBy: string = "upvotes", category?: string, search
     query = query.order("created_at", { ascending: false });
   }
 
+  // Load initial batch
+  query = query.range(0, ITEMS_PER_PAGE - 1);
+
   const { data, error } = await query;
 
   if (error) {
@@ -42,33 +47,6 @@ async function getWebsites(sortBy: string = "upvotes", category?: string, search
   }
 
   return data as Website[];
-}
-
-function WebsitesGrid({ websites, searchQuery }: { websites: Website[]; searchQuery?: string }) {
-  if (websites.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="card-retro text-center max-w-md">
-          {searchQuery ? (
-            <>
-              <p className="text-retro-dark text-lg font-bold mb-2">No results found 😅</p>
-              <p className="text-gray-500 font-mono text-sm">Try a different search term or browse by category</p>
-            </>
-          ) : (
-            <p className="text-retro-dark text-lg font-bold">No websites yet. Be the first to submit!</p>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-      {websites.map((website) => (
-        <WebsiteCard key={website.id} website={website} />
-      ))}
-    </div>
-  );
 }
 
 export default async function Page({
@@ -201,16 +179,14 @@ export default async function Page({
         </div>
       </div>
 
-      {/* Results count */}
-      {searchQuery && (
-        <p className="mb-4 text-sm text-gray-500 font-mono">
-          {websites.length} result{websites.length !== 1 ? "s" : ""} for "{searchQuery}"
-        </p>
-      )}
-
-      {/* Websites Grid */}
+      {/* Websites Grid with Infinite Scroll */}
       <Suspense fallback={<div className="text-center py-12 font-bold text-retro-dark">Loading websites...</div>}>
-        <WebsitesGrid websites={websites} searchQuery={searchQuery} />
+        <InfiniteWebsiteGrid 
+          initialWebsites={websites} 
+          sortBy={sortBy}
+          category={category}
+          searchQuery={searchQuery}
+        />
       </Suspense>
     </div>
   );

@@ -17,9 +17,6 @@ export function Footer() {
             <Link href="/submit" className="text-retro-dark hover:text-retro-accent transition-colors">
               Submit
             </Link>
-            <a href="mailto:testkartik770@gmail.com" className="text-retro-dark hover:text-retro-accent transition-colors">
-              Contact
-            </a>
             <a href="/sponsor" className="text-retro-dark hover:text-retro-accent transition-colors">
               Advertise
             </a>
