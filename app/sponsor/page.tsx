@@ -3,11 +3,12 @@ import Link from "next/link";
 
 export default function SponsorPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-      {/* Header */}
-      <div className="text-center mb-10 sm:mb-12">
+    <div className="min-h-screen w-full bg-retro-bg">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        {/* Header */}
+        <div className="text-center mb-10 sm:mb-12">
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4 text-retro-dark">
-          Sponsor <span className="text-retro-accent">CoolWebs</span> 🚀
+          Sponsor <span className="text-retro-accent">CoolWebs</span> 
         </h1>
         <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto font-mono">
           Get your product in front of thousands of developers, designers, and tech enthusiasts who are actively discovering new tools.
@@ -43,7 +44,7 @@ export default function SponsorPage() {
 
       {/* What You Get */}
       <div className="card-retro mb-10 sm:mb-12">
-        <h2 className="text-2xl font-black text-retro-dark mb-6">What You Get 📦</h2>
+        <h2 className="text-2xl font-black text-retro-dark mb-6">What You Get?</h2>
         <ul className="space-y-3">
           {[
             "Featured banner on homepage (seen by all visitors)",
@@ -103,7 +104,7 @@ export default function SponsorPage() {
         </div>
 
         <p className="text-center text-gray-500 text-xs font-mono mt-6">
-          I typically respond within 24 hours ⚡
+          I typically respond within 24 hours
         </p>
       </div>
 
@@ -115,6 +116,7 @@ export default function SponsorPage() {
         >
           ← Back to Home
         </Link>
+      </div>
       </div>
     </div>
   );

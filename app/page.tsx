@@ -20,6 +20,9 @@ async function getWebsites(sortBy: string = "upvotes", category?: string, search
 
   let query = supabase.from("websites").select("*");
 
+  // SECURITY: Only show approved websites
+  query = query.eq("status", "approved");
+
   // Search by title or description
   if (searchQuery && searchQuery.trim()) {
     query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
@@ -102,11 +105,11 @@ export default async function Page({
         </Suspense>
       </div>
 
-      {/* Sponsored Ad Banner - Hidden on small screens, simplified on medium */}
-      <div className="hidden sm:block mb-8 lg:mb-10 p-4 lg:p-6 bg-retro-yellow border-2 border-retro-dark rounded-md shadow-retro relative overflow-hidden">
+      {/* Sponsored Ad Banner - Now visible on all screen sizes */}
+      <div className="mb-6 sm:mb-8 lg:mb-10 p-4 lg:p-6 bg-retro-yellow border-2 border-retro-dark rounded-md shadow-retro relative overflow-hidden">
         <div className="absolute top-2 right-2">
-          <span className="px-2 py-1 bg-retro-dark text-white text-xs font-bold rounded-md">
-            SPONSORED
+          <span className="px-2 py-1 bg-white/20 text-retro-dark text-xs">
+            AD
           </span>
         </div>
         <div className="flex flex-col md:flex-row items-center gap-4 lg:gap-6">
@@ -116,11 +119,11 @@ export default async function Page({
           </div>
           {/* Ad Content */}
           <div className="flex-1 text-center md:text-left">
-            <h3 className="text-xl lg:text-2xl font-black text-retro-dark mb-2">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-retro-dark mb-2">
               🚀 Your Brand Could Be Here!
             </h3>
-            <p className="text-retro-dark/80 font-mono text-xs lg:text-sm mb-3 lg:mb-4 hidden lg:block">
-              Reach thousands of developers and tech enthusiasts. Sponsor this spot and showcase your product to our community.
+            <p className="text-retro-dark/80 font-mono text-xs sm:text-sm mb-3 lg:mb-4">
+              Reach thousands of developers and tech enthusiasts.
             </p>
             <a
               href="/sponsor"

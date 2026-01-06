@@ -39,6 +39,9 @@ export function InfiniteWebsiteGrid({ initialWebsites, sortBy, category, searchQ
 
     let query = supabase.from("websites").select("*");
 
+    // SECURITY: Only show approved websites
+    query = query.eq("status", "approved");
+
     // Apply same filters as initial load
     if (searchQuery && searchQuery.trim()) {
       query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);

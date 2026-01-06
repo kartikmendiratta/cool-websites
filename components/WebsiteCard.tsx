@@ -74,68 +74,48 @@ export function WebsiteCard({ website }: { website: Website }) {
   }, [supabase, website.id]);
 
   const handleUpvote = useCallback(async () => {
+    // Check if user is logged in
+    if (!user?.sub) {
+      router.push("/login");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      // Check if user is logged in via Auth0
-      if (!user?.sub) {
-        // Redirect to login page
-        router.push("/login");
+      // Call secure server-side API
+      const response = await fetch("/api/vote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          websiteId: website.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Vote error:", data.error);
+        if (response.status === 429) {
+          alert("Too many votes. Please slow down.");
+        }
         return;
       }
 
-      const userId = user.sub;
+      // Update UI based on server response
+      setIsUpvoted(data.isVoted);
+      setUpvotesCount(data.upvotesCount);
 
-      // Check if user has already upvoted
-      const { data: existingVote } = await supabase
-        .from("votes_auth0")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("website_id", website.id)
-        .maybeSingle();
-
-      if (existingVote) {
-        // User already upvoted, remove the upvote
-        const { error: deleteError } = await supabase
-          .from("votes_auth0")
-          .delete()
-          .eq("user_id", userId)
-          .eq("website_id", website.id);
-
-        if (deleteError) {
-          console.error("Error deleting vote:", deleteError);
-        } else {
-          setIsUpvoted(false);
-          // Optimistically update the UI
-          setUpvotesCount((prev) => Math.max(0, prev - 1));
-        }
-      } else {
-        // First sync user to profiles table
-        await fetch("/api/auth/sync");
-        
-        // Add new upvote
-        const { error: insertError } = await supabase.from("votes_auth0").insert({
-          user_id: userId,
-          website_id: website.id,
-        });
-
-        if (insertError) {
-          console.error("Error inserting vote:", insertError);
-        } else {
-          setIsUpvoted(true);
-          // Optimistically update the UI
-          setUpvotesCount((prev) => prev + 1);
-        }
-      }
-
-      // Refresh to get the accurate count from database
+      // Refresh to sync with database
       router.refresh();
     } catch (error) {
-      console.error("Error updating upvote:", error);
+      console.error("Error updating vote:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [website.id, supabase, router, user]);
+  }, [website.id, router, user]);
 
   // Category color mapping for visual variety
   const categoryColors: Record<string, string> = {

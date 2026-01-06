@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { Loader2, CheckCircle2 } from "lucide-react";
 
@@ -14,7 +13,6 @@ export function SubmitForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,21 +20,39 @@ export function SubmitForm() {
     setLoading(true);
 
     try {
-      // Validate URL
+      // Client-side validation
       const urlPattern = /^https?:\/\/.+/i;
       if (!urlPattern.test(url)) {
         throw new Error("Please enter a valid URL starting with http:// or https://");
       }
 
-      // Insert website
-      const { error: insertError } = await supabase.from("websites").insert({
-        title,
-        url,
-        description,
-        category,
+      if (title.length > 100) {
+        throw new Error("Title must be 100 characters or less");
+      }
+
+      if (description.length > 500) {
+        throw new Error("Description must be 500 characters or less");
+      }
+
+      // Call secure API endpoint with server-side validation
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          url,
+          description,
+          category,
+        }),
       });
 
-      if (insertError) throw insertError;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to submit website");
+      }
 
       setSuccess(true);
       setTitle("");
