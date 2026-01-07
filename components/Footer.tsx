@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, Twitter } from "lucide-react";
+import { Heart, } from "lucide-react";
 
 export function Footer() {
   return (
@@ -21,6 +21,7 @@ export function Footer() {
               Advertise
             </Link>
           </nav>
+
 
           {/* Socials */}
           <div className="flex items-center justify-center sm:justify-end gap-3">
