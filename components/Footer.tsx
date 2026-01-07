@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, Github, Twitter } from "lucide-react";
+import { Heart, Twitter } from "lucide-react";
 
 export function Footer() {
   return (
@@ -24,22 +24,8 @@ export function Footer() {
 
           {/* Socials */}
           <div className="flex items-center justify-center sm:justify-end gap-3">
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-retro-main border-2 border-retro-dark rounded-md shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
-            >
-              <Twitter className="w-4 h-4 text-retro-dark" />
-            </a>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-retro-main border-2 border-retro-dark rounded-md shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
-            >
-              <Github className="w-4 h-4 text-retro-dark" />
-            </a>
+           
+            
           </div>
         </div>
 
