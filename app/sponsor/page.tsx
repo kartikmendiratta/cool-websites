@@ -88,7 +88,7 @@ export default function SponsorPage() {
 
           {/* Twitter/X */}
           <a
-            href="https://twitter.com"
+            href="https://x.com/mekartik08"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-4 p-4 bg-white border-2 border-retro-dark rounded-md shadow-retro-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-100"
@@ -98,7 +98,7 @@ export default function SponsorPage() {
             </div>
             <div>
               <p className="font-bold text-retro-dark">DM on X/Twitter</p>
-              <p className="text-gray-500 text-sm font-mono">Quick response!</p>
+              <p className="text-gray-500 text-sm font-mono">@mekartik08</p>
             </div>
           </a>
         </div>

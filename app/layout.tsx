@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Auth0Provider } from "@auth0/nextjs-auth0";
+import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
@@ -38,6 +39,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
+          <Analytics />
         </body>
       </Auth0Provider>
     </html>

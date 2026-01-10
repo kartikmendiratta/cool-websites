@@ -46,7 +46,7 @@ export function SearchBar() {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search websites..."
+          placeholder="Search Your Needed Website..."
           className="w-full pl-12 pr-12 py-3 bg-white border-2 border-retro-dark rounded-md text-retro-dark placeholder-gray-400 font-mono focus:outline-none focus:ring-2 focus:ring-retro-accent focus:ring-offset-2 shadow-retro-sm"
         />
         {query && (

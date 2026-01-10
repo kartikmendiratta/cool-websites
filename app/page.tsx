@@ -23,9 +23,9 @@ async function getWebsites(sortBy: string = "upvotes", category?: string, search
   // SECURITY: Only show approved websites
   query = query.eq("status", "approved");
 
-  // Search by title or description
+  // Search by title, description, or category
   if (searchQuery && searchQuery.trim()) {
-    query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+    query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`);
   }
 
   // Filter by category if specified
