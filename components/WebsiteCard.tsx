@@ -97,7 +97,6 @@ export function WebsiteCard({ website }: { website: Website }) {
       const data = await response.json();
 
       if (!response.ok) {
-        console.error("Vote error:", data.error);
         if (response.status === 429) {
           alert("Too many votes. Please slow down.");
         }
@@ -110,9 +109,8 @@ export function WebsiteCard({ website }: { website: Website }) {
 
       // Refresh to sync with database
       router.refresh();
-    } catch (error) {
-      console.error("Error updating vote:", error);
-    } finally {
+    }
+     finally {
       setIsLoading(false);
     }
   }, [website.id, router, user]);

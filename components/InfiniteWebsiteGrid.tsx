@@ -63,7 +63,6 @@ export function InfiniteWebsiteGrid({ initialWebsites, sortBy, category, searchQ
     const { data, error } = await query;
 
     if (error) {
-      console.error("Error loading more websites:", error);
       setLoading(false);
       return;
     }

@@ -97,7 +97,7 @@ export async function POST(request: Request) {
         .eq("website_id", websiteId);
 
       if (deleteError) {
-        console.error("Error removing vote:", deleteError);
+        console.error("[VOTE] Error removing vote:", deleteError.message);
         return NextResponse.json(
           { error: "Failed to remove vote" },
           { status: 500 }
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
           },
         });
       } catch (syncError) {
-        console.warn("User sync failed, continuing with vote:", syncError);
+        console.warn("User sync failed, continuing with vote:");
         // Continue anyway - user might already be synced
       }
 
@@ -140,7 +140,7 @@ export async function POST(request: Request) {
         });
 
       if (insertError) {
-        console.error("Error adding vote:", insertError);
+        console.error("[VOTE] Error adding vote:", insertError.message);
         return NextResponse.json(
           { error: "Failed to add vote" },
           { status: 500 }
@@ -162,11 +162,10 @@ export async function POST(request: Request) {
       });
     }
   } catch (error) {
-    console.error("Vote error:", error);
-    // Log detailed error for debugging
-    console.error("Error details:", error instanceof Error ? error.message : String(error));
+    // Log full error server-side only
+    console.error("[VOTE] Unexpected error:", error instanceof Error ? error.message : error);
     return NextResponse.json(
-      { error: "Internal server error", details: error instanceof Error ? error.message : String(error) },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -159,7 +159,8 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error("Database error:", error);
+      // Log error server-side only, don't expose to client
+      console.error("[SUBMIT] Database error:", error.message);
       return NextResponse.json(
         { error: "Failed to submit website. Please try again." },
         { status: 500 }
@@ -175,7 +176,8 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Submit error:", error);
+    // Log full error server-side, generic message to client
+    console.error("[SUBMIT] Unexpected error:", error instanceof Error ? error.message : error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
